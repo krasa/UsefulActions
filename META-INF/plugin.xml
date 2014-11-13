@@ -1,0 +1,108 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD"
+        "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin version="2">
+
+    <name>Useful actions</name>
+    <id>UsefulActions</id>
+    <version>1.7</version>
+
+    <description><![CDATA[
+         Contains following actions: 
+         <br>- Reopen recent project action - sorted by project name, with speed search. (F1 - you must delete keymap for Help)
+            <br>
+         <br>- Quick switch for turning on/off proxy
+         <br>- Browse favourite SVN repository - main toolbar action
+         <br>- Change list conflict bar with action: Move current file to active changelist 
+        <br>- Align by Column action (experimental)
+        <br>
+         <br>- Max recent projects settings for Reopen project action.
+         <br>- Settings for Navigate to Class/File(ctrl+N) delay on change of input. So that as you type, it can instantly search without waiting. - Not needed from IJ 13.
+          ]]>
+    </description>
+
+    <category>Misc</category>
+
+    <vendor url="https://github.com/krasa/UsefulActions" email="vojta.krasa@gmail.com">Vojtech Krasa</vendor>
+
+    <idea-version since-build="135.667" until-build=""/>
+
+    <change-notes><![CDATA[
+
+        <br>1.7
+        <br>- Align by Column action improvements
+        <br>1.6
+        <br>- Deleted mark/unmark action (api changed), added Align by Column action
+        <br>- Deleted Quick Create Project action in file chooser (already implemented in IJ)
+        <br>1.5
+        <br>- Reset of overridden properties to default when they are set empty.
+        <br>- Quick Create Project action in file chooser.
+        
+        <br>1.4
+        <br>- Quick switch support for Auto-Detect proxy settings
+        <br>- Changed back default rebuild delay to 0, it is now also IJ default, Hurray!
+        
+        <br>1.3
+        <br>- Changed default rebuild delay to 300 since it causes problems in new IJ 130.1365, it will also override user settings on first start
+    
+        <br>1.2
+        <br>- Deleted editor actions in favor of <a href="https://github.com/dkandalov/intellij_eval" >IntelliJEval plugin</a>
+    
+        <br>1.1
+        <br>- Mark/UnMark As Plain Text action applicable to whole folders - right click in project view (replaces original action)
+    
+        <br>1.0
+        <br>- Settings for Navigate to Class/File delay on change of input - set to 0 ms instead of default 300 ms  
+    
+        <br>0.9
+        <br>- Reopen recent project action - now uses speed search. 
+
+        <br>0.8
+        <br>- New: Reopen recent project action - sorted by project name - default F1 
+
+        <br>0.7
+        <br>- Fixed exception: Browse favourite SVN repository 
+
+        <br>0.6
+        <br>- New: Browse favourite SVN repository - main toolbar action
+        <br>- New: Max recent projects settings for Reopen project action.
+
+        <br>0.5
+        <br>- rebuild for 122.639
+
+        <br>0.4
+        <br>- New: Constant to properties style action
+
+        <br>0.3
+        <br>- New: Quick switch for turning on/off proxy
+
+            ]]></change-notes>
+
+    <actions>
+        <action id="ChangeProxyAction" class="krasa.usefulactions.ChangeProxyAction"
+                text="Turn on/off proxy settings" description="Turn on/off proxy settings">
+            <add-to-group group-id="ChangeScheme" anchor="last"/>
+        </action>
+        <action id="SortedReopenProjectAction" class="krasa.usefulactions.SortedReopenProjectAction"
+                text="Sorted Reopen" description="Sorted Reopen Recent Project">
+            <add-to-group group-id="FileOpenGroup" anchor="after" relative-to-action="$LRU"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="F1"/>
+        </action>
+        <action id="krasa.usefulactions.AlignColumnAction"
+                class="krasa.usefulactions.AlignColumnAction"
+                text="Align by Column" description="Align by Column">
+            <add-to-group group-id="CodeMenu" anchor="last"/>
+        </action>
+    </actions>
+
+    <depends optional="true">Subversion</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <editorNotificationProvider implementation="krasa.usefulactions.MyChangelistConflictNotificationProvider"/>
+    </extensions>
+    <application-components>
+        <component>
+            <implementation-class>krasa.usefulactions.plugin.UsefulActionsApplicationComponent</implementation-class>
+        </component>
+    </application-components>
+
+</idea-plugin>
