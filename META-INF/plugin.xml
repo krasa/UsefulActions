@@ -27,7 +27,6 @@
         <br>2.0
         <br>- deleted Align by Column action  - use <a href="https://plugins.jetbrains.com/plugin/2162" >String Manipulation plugin</a>
         <br>- deleted Max recent projects settings - use <a href="https://plugins.jetbrains.com/plugin/7138" >Frame Switcher plugin</a>
-        <br>- deleted Reopen recent project action - use <a href="https://plugins.jetbrains.com/plugin/7138" >Frame Switcher plugin</a>
         <br>1.9
         <br>- Deleted Reopen project action (not compatible with IJ 14.1) - use <a href="https://plugins.jetbrains.com/plugin/7138" >Frame Switcher plugin</a>
         <br>1.7
