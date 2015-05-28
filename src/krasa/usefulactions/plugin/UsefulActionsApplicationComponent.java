@@ -2,8 +2,6 @@ package krasa.usefulactions.plugin;
 
 import javax.swing.*;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeFactory;
 import krasa.usefulactions.svn.BrowseSvnRepoAction;
 import krasa.usefulactions.svn.UsefulActionsApplicationSettings;
 
@@ -19,6 +17,7 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.IdeActions;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.*;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.ShowSettingsUtil;
@@ -29,9 +28,9 @@ import com.intellij.openapi.util.registry.Registry;
 @State(name = "UsefulActions", storages = { @Storage(id = "UsefulActions", file = "$APP_CONFIG$/UsefulActions.xml") })
 public class UsefulActionsApplicationComponent implements Configurable,
 		PersistentStateComponent<UsefulActionsApplicationSettings>, ProjectComponent, ApplicationComponent {
+	private final Logger LOG = Logger.getInstance("#" + getClass().getCanonicalName());
 
 	public static final Icon ICON = IconLoader.getIcon("/krasa/usefulactions/plugin/svnBrowse.gif");
-	public static final String IDE_MAX_RECENT_PROJECTS = "ide.max.recent.projects";
 	public static final String REBUILD_DELAY = "ide.goto.rebuild.delay";
 	private UsefulActionsApplicationSettings state;
 	protected SettingsForm form;
@@ -50,7 +49,6 @@ public class UsefulActionsApplicationComponent implements Configurable,
 	public void initComponent() {
 		if (state == null) {
 			state = new UsefulActionsApplicationSettings();
-			state.setRecentProjectsSize(Registry.get("ide.max.recent.projects").asString());
 		}
 		createAndUpdateBrowseSvnAction();
 	}
@@ -103,7 +101,6 @@ public class UsefulActionsApplicationComponent implements Configurable,
 	@Override
 	public void loadState(UsefulActionsApplicationSettings state) {
 		this.state = state;
-		setMaxRecentProjectsToRegistry(state);
 		if (state.getVersion() == 1) {
 			state.setVersion(2);
 			state.setRebuildDelay("0");
@@ -111,16 +108,9 @@ public class UsefulActionsApplicationComponent implements Configurable,
 		setRebuildDelayToRegistry(state);
 	}
 
-	private void setMaxRecentProjectsToRegistry(UsefulActionsApplicationSettings state) {
-		if (!StringUtils.isBlank(state.getRecentProjectsSize())) {
-			Registry.get(IDE_MAX_RECENT_PROJECTS).setValue(Integer.parseInt(state.getRecentProjectsSize()));
-		} else {
-			Registry.get(IDE_MAX_RECENT_PROJECTS).resetToDefault();
-		}
-	}
-
 	private void setRebuildDelayToRegistry(UsefulActionsApplicationSettings state) {
 		if (!StringUtils.isBlank(state.getRebuildDelay())) {
+			LOG.info("Changing Registry " + REBUILD_DELAY + " to " + state.getRebuildDelay());
 			Registry.get(REBUILD_DELAY).setValue(Integer.parseInt(state.getRebuildDelay()));
 		} else {
 			Registry.get(REBUILD_DELAY).resetToDefault();
@@ -158,8 +148,6 @@ public class UsefulActionsApplicationComponent implements Configurable,
 		if (form != null) {
 			form.getData(state);
 			createAndUpdateBrowseSvnAction();
-
-			setMaxRecentProjectsToRegistry(state);
 			setRebuildDelayToRegistry(state);
 		}
 	}

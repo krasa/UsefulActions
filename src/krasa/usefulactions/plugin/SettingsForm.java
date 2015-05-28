@@ -15,8 +15,6 @@ public class SettingsForm {
 	// private JButton browseButton;
 	private JCheckBox showSvnBrowseButton;
 	private JLabel svnAddressLabel;
-	private JTextField recentProjectsSize;
-	private JLabel recentProjectsSizeLabel;
 	private JTextField rebuildDelay;
 	private JLabel rebuildDelayLabel;
 
@@ -72,14 +70,12 @@ public class SettingsForm {
 	public void setData(UsefulActionsApplicationSettings data) {
 		address.setText(data.getSvnAddress());
 		showSvnBrowseButton.setSelected(data.isShowSvnBrowseButton());
-		recentProjectsSize.setText(data.getRecentProjectsSize());
 		rebuildDelay.setText(data.getRebuildDelay());
 	}
 
 	public void getData(UsefulActionsApplicationSettings data) {
 		data.setSvnAddress(address.getText());
 		data.setShowSvnBrowseButton(showSvnBrowseButton.isSelected());
-		data.setRecentProjectsSize(recentProjectsSize.getText());
 		data.setRebuildDelay(rebuildDelay.getText());
 	}
 
@@ -87,9 +83,6 @@ public class SettingsForm {
 		if (address.getText() != null ? !address.getText().equals(data.getSvnAddress()) : data.getSvnAddress() != null)
 			return true;
 		if (showSvnBrowseButton.isSelected() != data.isShowSvnBrowseButton())
-			return true;
-		if (recentProjectsSize.getText() != null ? !recentProjectsSize.getText().equals(data.getRecentProjectsSize())
-				: data.getRecentProjectsSize() != null)
 			return true;
 		if (rebuildDelay.getText() != null ? !rebuildDelay.getText().equals(data.getRebuildDelay())
 				: data.getRebuildDelay() != null)

@@ -5,7 +5,6 @@ public class UsefulActionsApplicationSettings {
 	private Integer version = 2;
 	private String svnAddress;
 	private boolean showSvnBrowseButton = true;
-	private String recentProjectsSize = "50";
 	private String rebuildDelay;
 
 	public String getSvnAddress() {
@@ -22,14 +21,6 @@ public class UsefulActionsApplicationSettings {
 
 	public void setShowSvnBrowseButton(final boolean showSvnBrowseButton) {
 		this.showSvnBrowseButton = showSvnBrowseButton;
-	}
-
-	public String getRecentProjectsSize() {
-		return recentProjectsSize;
-	}
-
-	public void setRecentProjectsSize(final String recentProjectsSize) {
-		this.recentProjectsSize = recentProjectsSize;
 	}
 
 	public String getRebuildDelay() {

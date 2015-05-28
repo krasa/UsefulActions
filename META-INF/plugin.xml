@@ -4,18 +4,14 @@
 
     <name>Useful actions</name>
     <id>UsefulActions</id>
-    <version>1.7</version>
+    <version>2.0</version>
 
     <description><![CDATA[
          Contains following actions: 
-         <br>- Reopen recent project action - sorted by project name, with speed search. (F1 - you must delete keymap for Help)
-            <br>
          <br>- Quick switch for turning on/off proxy
          <br>- Browse favourite SVN repository - main toolbar action
          <br>- Change list conflict bar with action: Move current file to active changelist 
-        <br>- Align by Column action (experimental)
-        <br>
-         <br>- Max recent projects settings for Reopen project action.
+         <br>
          <br>- Settings for Navigate to Class/File(ctrl+N) delay on change of input. So that as you type, it can instantly search without waiting. - Not needed from IJ 13.
           ]]>
     </description>
@@ -28,6 +24,12 @@
 
     <change-notes><![CDATA[
 
+        <br>2.0
+        <br>- deleted Align by Column action  - use <a href="https://plugins.jetbrains.com/plugin/2162" >String Manipulation plugin</a>
+        <br>- deleted Max recent projects settings - use <a href="https://plugins.jetbrains.com/plugin/7138" >Frame Switcher plugin</a>
+        <br>- deleted Reopen recent project action - use <a href="https://plugins.jetbrains.com/plugin/7138" >Frame Switcher plugin</a>
+        <br>1.9
+        <br>- Deleted Reopen project action (not compatible with IJ 14.1) - use <a href="https://plugins.jetbrains.com/plugin/7138" >Frame Switcher plugin</a>
         <br>1.7
         <br>- Align by Column action improvements
         <br>1.6
@@ -81,16 +83,6 @@
         <action id="ChangeProxyAction" class="krasa.usefulactions.ChangeProxyAction"
                 text="Turn on/off proxy settings" description="Turn on/off proxy settings">
             <add-to-group group-id="ChangeScheme" anchor="last"/>
-        </action>
-        <action id="SortedReopenProjectAction" class="krasa.usefulactions.SortedReopenProjectAction"
-                text="Sorted Reopen" description="Sorted Reopen Recent Project">
-            <add-to-group group-id="FileOpenGroup" anchor="after" relative-to-action="$LRU"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="F1"/>
-        </action>
-        <action id="krasa.usefulactions.AlignColumnAction"
-                class="krasa.usefulactions.AlignColumnAction"
-                text="Align by Column" description="Align by Column">
-            <add-to-group group-id="CodeMenu" anchor="last"/>
         </action>
     </actions>
 
