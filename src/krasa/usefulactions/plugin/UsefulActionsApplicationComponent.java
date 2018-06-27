@@ -2,19 +2,11 @@ package krasa.usefulactions.plugin;
 
 import javax.swing.*;
 
-import krasa.usefulactions.svn.BrowseSvnRepoAction;
-import krasa.usefulactions.svn.UsefulActionsApplicationSettings;
-
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.intellij.notification.NotificationType;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
-import com.intellij.openapi.actionSystem.IdeActions;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.diagnostic.Logger;
@@ -22,19 +14,19 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.util.registry.Registry;
 
-@State(name = "UsefulActions", storages = { @Storage(id = "UsefulActions", file = "$APP_CONFIG$/UsefulActions.xml") })
+import krasa.usefulactions.svn.UsefulActionsApplicationSettings;
+
+@State(name = "UsefulActions", storages = { @Storage(file = "$APP_CONFIG$/UsefulActions.xml") })
 public class UsefulActionsApplicationComponent implements Configurable,
 		PersistentStateComponent<UsefulActionsApplicationSettings>, ProjectComponent, ApplicationComponent {
-	private final Logger LOG = Logger.getInstance("#" + getClass().getCanonicalName());
 
-	public static final Icon ICON = IconLoader.getIcon("/krasa/usefulactions/plugin/svnBrowse.gif");
 	public static final String REBUILD_DELAY = "ide.goto.rebuild.delay";
+	private static final Logger LOG = Logger.getInstance(UsefulActionsApplicationComponent.class);
+
 	private UsefulActionsApplicationSettings state;
 	protected SettingsForm form;
-	protected BrowseSvnRepoAction action;
 
 	public static boolean openSettingsIfNotConfigured(Project project) {
 		UsefulActionsApplicationComponent instance = getInstance();
@@ -50,37 +42,10 @@ public class UsefulActionsApplicationComponent implements Configurable,
 		if (state == null) {
 			state = new UsefulActionsApplicationSettings();
 		}
-		createAndUpdateBrowseSvnAction();
 	}
 
-	private void createAndUpdateBrowseSvnAction() {
-		if (action == null) {
-			action = new BrowseSvnRepoAction(ICON) {
-
-				@Override
-				public void actionPerformed(AnActionEvent e) {
-					try {
-						super.actionPerformed(e);
-					} catch (NoClassDefFoundError ex) {
-						Notifier.notify(e.getProject(), "SVN plugin is required.", NotificationType.WARNING);
-					}
-				}
-			};
-
-		}
-		setVisibility();
-	}
 
 	private void setVisibility() {
-		if (action != null) {
-			boolean showSvnBrowseButton = state.isShowSvnBrowseButton();
-			DefaultActionGroup mainToolBar = (DefaultActionGroup) ActionManager.getInstance().getAction(
-					IdeActions.GROUP_MAIN_TOOLBAR);
-			mainToolBar.remove(action);
-			if (showSvnBrowseButton) {
-				mainToolBar.addAction(action);
-			}
-		}
 	}
 
 	public void disposeComponent() {
@@ -101,21 +66,12 @@ public class UsefulActionsApplicationComponent implements Configurable,
 	@Override
 	public void loadState(UsefulActionsApplicationSettings state) {
 		this.state = state;
-		if (state.getVersion() == 1) {
-			state.setVersion(2);
-			state.setRebuildDelay("0");
-		}
-		setRebuildDelayToRegistry(state);
-	}
-
-	private void setRebuildDelayToRegistry(UsefulActionsApplicationSettings state) {
-		if (!StringUtils.isBlank(state.getRebuildDelay())) {
-			LOG.info("Changing Registry " + REBUILD_DELAY + " to " + state.getRebuildDelay());
-			Registry.get(REBUILD_DELAY).setValue(Integer.parseInt(state.getRebuildDelay()));
-		} else {
+		if (state.getVersion() != 3) {
+			state.setVersion(3);
 			Registry.get(REBUILD_DELAY).resetToDefault();
 		}
 	}
+
 
 	@Nls
 	@Override
@@ -147,8 +103,6 @@ public class UsefulActionsApplicationComponent implements Configurable,
 	public void apply() throws ConfigurationException {
 		if (form != null) {
 			form.getData(state);
-			createAndUpdateBrowseSvnAction();
-			setRebuildDelayToRegistry(state);
 		}
 	}
 

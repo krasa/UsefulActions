@@ -1,22 +1,13 @@
 package krasa.usefulactions.plugin;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
-
-import krasa.usefulactions.svn.UsefulActionsApplicationSettings;
 
 import org.jetbrains.annotations.NotNull;
 
+import krasa.usefulactions.svn.UsefulActionsApplicationSettings;
+
 public class SettingsForm {
 	private JPanel rootComponent;
-	private JTextField address;
-	// private JButton browseButton;
-	private JCheckBox showSvnBrowseButton;
-	private JLabel svnAddressLabel;
-	private JTextField rebuildDelay;
-	private JLabel rebuildDelayLabel;
 
 	public SettingsForm() {
 		// browseButton.addActionListener(new ActionListener() {
@@ -24,19 +15,10 @@ public class SettingsForm {
 		// public void actionPerformed(ActionEvent e) {
 		// }
 		// });
-		JToggleButton[] modifiableButtons = { showSvnBrowseButton };
-		for (JToggleButton button : modifiableButtons) {
-			button.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					updateComponents();
-				}
-			});
-		}
 
 	}
 
 	private void updateComponents() {
-		enabledBy(new JComponent[] { address, svnAddressLabel }, showSvnBrowseButton);
 	}
 
 	private void enabledBy(@NotNull JComponent[] targets, @NotNull JToggleButton... control) {
@@ -68,25 +50,12 @@ public class SettingsForm {
 	}
 
 	public void setData(UsefulActionsApplicationSettings data) {
-		address.setText(data.getSvnAddress());
-		showSvnBrowseButton.setSelected(data.isShowSvnBrowseButton());
-		rebuildDelay.setText(data.getRebuildDelay());
 	}
 
 	public void getData(UsefulActionsApplicationSettings data) {
-		data.setSvnAddress(address.getText());
-		data.setShowSvnBrowseButton(showSvnBrowseButton.isSelected());
-		data.setRebuildDelay(rebuildDelay.getText());
 	}
 
 	public boolean isModified(UsefulActionsApplicationSettings data) {
-		if (address.getText() != null ? !address.getText().equals(data.getSvnAddress()) : data.getSvnAddress() != null)
-			return true;
-		if (showSvnBrowseButton.isSelected() != data.isShowSvnBrowseButton())
-			return true;
-		if (rebuildDelay.getText() != null ? !rebuildDelay.getText().equals(data.getRebuildDelay())
-				: data.getRebuildDelay() != null)
-			return true;
 		return false;
 	}
 }
