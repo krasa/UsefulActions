@@ -32,7 +32,6 @@
                 class="krasa.usefulactions.AddBundledPluginsToSdkAction"
                 text="Add Bundled Plugins to IntelliJ Platform Plugin SDK"
                 description="Add bundled plugins to IntelliJ Platform Plugin SDK">
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt Q"/>
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
