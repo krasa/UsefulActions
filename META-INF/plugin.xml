@@ -4,21 +4,21 @@
 
     <name>Useful actions</name>
     <id>UsefulActions</id>
-    <version>2.2</version>
+    <version>2.3</version>
 
     <description><![CDATA[
          Contains following actions: 
          <br>- Quick switch for turning on/off proxy
-         <br>- Build and install plugin action
+         <br>- Add bundled plugins to IntelliJ Platform Plugin SDK
           ]]>
     </description>
 
     <category>Misc</category>
 
     <vendor url="https://github.com/krasa/UsefulActions" email="vojta.krasa@gmail.com">Vojtech Krasa</vendor>
-    <depends optional="false">DevKit</depends>
+    <depends optional="true">DevKit</depends>
 
-    <idea-version since-build="182" until-build=""/>
+    <idea-version since-build="201"/>
     <change-notes><![CDATA[
 
             ]]></change-notes>
@@ -28,17 +28,16 @@
                 text="Turn on/off proxy settings" description="Turn on/off proxy settings">
             <add-to-group group-id="ChangeScheme" anchor="last"/>
         </action>
-        <group id="krasa.PluginDeployActions">
-            <action class="krasa.usefulactions.PrepareToDeployAction" id="krasa.MakeJarAction" text="MakeJarAction">
-            </action>
-            <action class="krasa.usefulactions.PrepareAllToDeployAction" id="krasa.PrepareAllToDeployAction"
-                    text="Release and install all">
-            </action>
-            <add-to-group anchor="after" group-id="ProjectViewPopupMenu" relative-to-action="Compile"/>
-            <add-to-group anchor="after" group-id="BuildMenu" relative-to-action="BuildArtifact"/>
-        </group>
+        <action id="krasa.usefulactions.AddBundledPluginsToSdkAction"
+                class="krasa.usefulactions.AddBundledPluginsToSdkAction"
+                text="Add Bundled Plugins to IntelliJ Platform Plugin SDK"
+                description="Add bundled plugins to IntelliJ Platform Plugin SDK">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt Q"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
 
+    <depends optional="true">DevKit</depends>
 
     <extensions defaultExtensionNs="com.intellij">
     </extensions>
