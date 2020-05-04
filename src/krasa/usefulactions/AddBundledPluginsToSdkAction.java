@@ -33,6 +33,9 @@ public class AddBundledPluginsToSdkAction extends AnAction {
 	@java.lang.Override
 	public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
 		Project eventProject = getEventProject(anActionEvent);
+		if (eventProject == null) {
+			return;
+		}
 		Sdk projectSdk1 = ProjectRootManager.getInstance(eventProject).getProjectSdk();
 		if (projectSdk1.getSdkType().getName().equals("IDEA JDK")) {
 			SdkModificator sdkModificator = projectSdk1.getSdkModificator();
@@ -72,7 +75,6 @@ public class AddBundledPluginsToSdkAction extends AnAction {
 	private static VirtualFile[] getIdeaLibrary(String home) {
 		List<VirtualFile> result = new ArrayList<>();
 		String plugins = home + File.separator + PLUGINS_DIR + File.separator;
-		final JarFileSystem jfs = JarFileSystem.getInstance();
 		final File lib = new File(plugins);
 		if (lib.isDirectory()) {
 			File[] dirs = lib.listFiles();
