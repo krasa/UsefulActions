@@ -9,7 +9,7 @@
     <description><![CDATA[
          Contains following actions: 
          <br>- Quick switch for turning on/off proxy
-         <br>- Add bundled plugins to IntelliJ Platform Plugin SDK
+         <br>- Tools | Add bundled plugins to IntelliJ Platform Plugin SDK
           ]]>
     </description>
 
