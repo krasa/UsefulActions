@@ -27,8 +27,6 @@ public class AddBundledPluginsToSdkAction extends AnAction {
 	private static final String PLUGINS_DIR = "plugins";
 	@NonNls
 	private static final String LIB_DIR_NAME = "lib";
-	@NonNls
-	private static final String SRC_DIR_NAME = "src";
 
 	@java.lang.Override
 	public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
@@ -36,9 +34,9 @@ public class AddBundledPluginsToSdkAction extends AnAction {
 		if (eventProject == null) {
 			return;
 		}
-		Sdk projectSdk1 = ProjectRootManager.getInstance(eventProject).getProjectSdk();
-		if (projectSdk1.getSdkType().getName().equals("IDEA JDK")) {
-			SdkModificator sdkModificator = projectSdk1.getSdkModificator();
+		Sdk projectSdk = ProjectRootManager.getInstance(eventProject).getProjectSdk();
+		if (projectSdk.getSdkType().getName().equals("IDEA JDK")) {
+			SdkModificator sdkModificator = projectSdk.getSdkModificator();
 			String homePath = sdkModificator.getHomePath();
 
 			VirtualFile[] ideaLibrary = getIdeaLibrary(homePath);
@@ -49,6 +47,21 @@ public class AddBundledPluginsToSdkAction extends AnAction {
 			sdkModificator.commitChanges();
 			LOG.info("SDK updated");
 		}
+	}
+
+	private static VirtualFile[] getIdeaLibrary(String home) {
+		List<VirtualFile> result = new ArrayList<>();
+		String plugins = home + File.separator + PLUGINS_DIR + File.separator;
+		final File lib = new File(plugins);
+		if (lib.isDirectory()) {
+			File[] dirs = lib.listFiles();
+			if (dirs != null) {
+				for (File dir : dirs) {
+					appendIdeaLibrary(plugins + dir.getName(), result);
+				}
+			}
+		}
+		return VfsUtilCore.toVirtualFileArray(result);
 	}
 
 	private static void appendIdeaLibrary(@NotNull String libDirPath, @NotNull List<VirtualFile> result, @NonNls final String... forbidden) {
@@ -70,20 +83,5 @@ public class AddBundledPluginsToSdkAction extends AnAction {
 				}
 			}
 		}
-	}
-
-	private static VirtualFile[] getIdeaLibrary(String home) {
-		List<VirtualFile> result = new ArrayList<>();
-		String plugins = home + File.separator + PLUGINS_DIR + File.separator;
-		final File lib = new File(plugins);
-		if (lib.isDirectory()) {
-			File[] dirs = lib.listFiles();
-			if (dirs != null) {
-				for (File dir : dirs) {
-					appendIdeaLibrary(plugins + dir.getName(), result);
-				}
-			}
-		}
-		return VfsUtilCore.toVirtualFileArray(result);
 	}
 }
