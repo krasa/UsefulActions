@@ -4,12 +4,13 @@
 
     <name>Useful actions</name>
     <id>UsefulActions</id>
-    <version>2.3</version>
+    <version>2.4</version>
 
     <description><![CDATA[
          Contains following actions: 
          <br>- Quick switch for turning on/off proxy
-         <br>- Tools | Add bundled plugins to IntelliJ Platform Plugin SDK
+         <br>- Tools | Add dependant bundled plugins to IntelliJ Platform Plugin SDK
+         <br>- Tools | Add all bundled plugins to IntelliJ Platform Plugin SDK
           ]]>
     </description>
 
@@ -28,10 +29,17 @@
                 text="Turn on/off proxy settings" description="Turn on/off proxy settings">
             <add-to-group group-id="ChangeScheme" anchor="last"/>
         </action>
+
         <action id="krasa.usefulactions.AddBundledPluginsToSdkAction"
                 class="krasa.usefulactions.AddBundledPluginsToSdkAction"
-                text="Add Bundled Plugins to IntelliJ Platform Plugin SDK"
-                description="Add bundled plugins to IntelliJ Platform Plugin SDK">
+                text="Add Dependant Bundled Plugins to IntelliJ Platform Plugin SDK"
+                description="Simplifies SDK setup for legacy IntelliJ plugins">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action id="krasa.usefulactions.AddAllBundledPluginsToSdkAction"
+                class="krasa.usefulactions.AddAllBundledPluginsToSdkAction"
+                text="Add All Bundled Plugins to IntelliJ Platform Plugin SDK"
+                description="Simplifies SDK setup for legacy IntelliJ plugins">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
