@@ -4,7 +4,7 @@
 
     <name>Useful actions</name>
     <id>UsefulActions</id>
-    <version>2.4</version>
+    <version>2.5</version>
 
     <description><![CDATA[
          Contains following actions: 
@@ -48,10 +48,5 @@
 
     <extensions defaultExtensionNs="com.intellij">
     </extensions>
-    <application-components>
-        <component>
-            <implementation-class>krasa.usefulactions.plugin.UsefulActionsApplicationComponent</implementation-class>
-        </component>
-    </application-components>
 
 </idea-plugin>
