@@ -11,6 +11,7 @@
          <br>- Quick switch for turning on/off proxy
          <br>- Tools | Add dependant bundled plugins to IntelliJ Platform Plugin SDK
          <br>- Tools | Add all bundled plugins to IntelliJ Platform Plugin SDK
+         <br>- File | Restart
           ]]>
     </description>
 
@@ -21,7 +22,7 @@
 
     <idea-version since-build="201"/>
     <change-notes><![CDATA[
-
+                                restart action
             ]]></change-notes>
 
     <actions>
@@ -41,6 +42,10 @@
                 text="Add All Bundled Plugins to IntelliJ Platform Plugin SDK"
                 description="Simplifies SDK setup for legacy IntelliJ plugins">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action id="krasa.usefulactions.RestartAction" class="krasa.usefulactions.RestartAction" text="Restart"
+                description="Provided by 'Useful actions' plugin">
+            <add-to-group group-id="FileMenu" anchor="before" relative-to-action="Exit"/>
         </action>
     </actions>
 
